@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Civil Server
+Comment=Tray app for managing local dev server
+Exec=./civil-server.py
+Icon=network-server
+Terminal=false
+Type=Application
+Categories=Development;Utility;
