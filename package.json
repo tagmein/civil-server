@@ -1,0 +1,16 @@
+{
+  "name": "civil-server",
+  "version": "0.1.0",
+  "description": "Civil Server - Node.js + Slint rebuild",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node src/test-server.js"
+  },
+  "dependencies": {
+    "slint-ui": "^1.8.0"
+  },
+  "keywords": ["server", "development", "utility"],
+  "author": "Civil Server",
+  "license": "MIT"
+}
