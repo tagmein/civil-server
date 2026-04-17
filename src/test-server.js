@@ -1,6 +1,26 @@
 const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
 
-const port = process.argv[2] || 3333;
+// Read configuration to get the port
+const configPath = path.join(os.homedir(), '.config', 'civil-server.json');
+let port = 3333; // default
+
+try {
+    if (fs.existsSync(configPath)) {
+        const configData = fs.readFileSync(configPath, 'utf8');
+        const config = JSON.parse(configData);
+        port = parseInt(config.port) || 3333;
+    }
+} catch (error) {
+    console.log('Using default port 3333 due to config error:', error.message);
+}
+
+// Allow command line override
+if (process.argv[2]) {
+    port = parseInt(process.argv[2]) || port;
+}
 
 const server = http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/html' });
