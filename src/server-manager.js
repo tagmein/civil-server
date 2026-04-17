@@ -45,6 +45,8 @@ class ServerManager {
     updateConfig(next) {
         this.config = { ...this.config, ...next };
         this.saveConfig();
+        // Reload config from file to ensure consistency
+        this.config = this.loadConfig();
     }
 
     isRunning() {

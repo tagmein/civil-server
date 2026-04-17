@@ -57,7 +57,7 @@ mainWindow.syncSessions = () => {
         .finally(refreshStatus);
 };
 
-mainWindow.configuration = () => {
+mainWindow.configuration = async () => {
     console.log("Configuration clicked");
 
     const dlg = new ConfigDialog();
@@ -65,9 +65,30 @@ mainWindow.configuration = () => {
     dlg.commandText = serverManager.config.command;
     dlg.directoryText = serverManager.config.directory;
 
-    dlg.saveConfig = (port, command, directory) => {
+    dlg.saveConfig = async (port, command, directory) => {
+        console.log(`Saving config: port=${port}, command=${command}, directory=${directory}`);
         serverManager.updateConfig({ port, command, directory });
-        refreshStatus();
+
+        // Check if server is running and restart it with new config
+        if (serverManager.isRunning()) {
+            console.log("Server is running, restarting with new config...");
+            mainWindow.statusText = "Restarting...";
+            mainWindow.statusColor = "#f39c12";
+
+            const stopResult = serverManager.stop();
+            console.log("Stop result:", stopResult.message);
+
+            // Wait a moment for clean shutdown
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            const startResult = await serverManager.start();
+            console.log("Start result:", startResult.message);
+
+            refreshStatus();
+        } else {
+            console.log("Server is not running, no restart needed");
+            refreshStatus();
+        }
     };
 
     dlg.closeDialog = () => {
