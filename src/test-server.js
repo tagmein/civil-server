@@ -62,7 +62,6 @@ const server = http.createServer((req, res) => {
         <body>
             <div class="container">
                 <h1>Civil Server Test</h1>
-                <div class="status">✅ Server Running</div>
                 <div class="port-info">Port: ${port}</div>
                 <p>This is a test server started by Civil Server.</p>
             </div>
